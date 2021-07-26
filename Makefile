@@ -6,7 +6,7 @@
 #    By: rcammaro <rcammaro@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 19:12:10 by rcammaro          #+#    #+#              #
-#    Updated: 2021/07/25 19:12:11 by rcammaro         ###   ########.fr        #
+#    Updated: 2021/07/26 12:58:28 by rcammaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS =	builtin_cd.c \
 SRC = $(addprefix src/,$(SRCS))
 OBJ = $(SRC:.c=.o)
 LIBFT = libft/libft.a
-INCLUDE = -I include -I libft
+INCLUDES = -I include -I libft -I /Users/$(USER)/.brew/opt/readline/include
+LIBS = -lft -L libft -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 HEADER = include/header.h
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
@@ -48,13 +49,13 @@ NAME = minishell
 all:		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJ)	
-			$(CC) $(FLAGS) $(OBJ) -lft -L libft -lreadline -o $@
+			$(CC) $(FLAGS) $(OBJ) $(LIBS) -o $@
 
 $(LIBFT):	
 			$(MAKE) all clean -C libft/
 
 %.o:		%.c $(HEADER)
-			$(CC) $(FLAGS) -c $(INCLUDE) $< -o $@
+			$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 
 clean:
 			rm -f $(OBJ)
@@ -62,8 +63,11 @@ clean:
 fclean:		clean
 			rm -f $(NAME) $(LIBFT)
 
-readline:
+readline-debian:
 			apt install libreadline-dev
+
+readline-brew:
+			brew install readline
 
 re:			fclean all 
 
