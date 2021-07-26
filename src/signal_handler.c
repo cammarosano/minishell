@@ -9,6 +9,13 @@ void	sigint_prompt(int signal_code)
 	rl_redisplay();
 }
 
+// the ^\ is erased from the display and the signal is ignored.
+void	sigquit_prompt(int signal_code)
+{
+	ft_putstr_fd("\b\b  \b\b", 1);
+	(void)signal_code;
+}
+
 void	sig_noninteract(int signal_code)
 {
 	if (signal_code == SIGQUIT)
@@ -16,18 +23,10 @@ void	sig_noninteract(int signal_code)
 	write(1, "\n", 1);
 }
 
-// the ^\ is erased from the display and the signal is ignored.
-// and execd binary will have the standard behavior to sigquit (not ignored)
-void	sigquit_handler(int signal_code)
-{
-	ft_putstr_fd("\b\b  \b\b", 1);
-	(void)signal_code;
-}
-
 void	setup_signal_handlers(void)
 {
 	signal(SIGINT, sigint_prompt);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, sigquit_prompt);
 }
 
 void	reset_signal_handlers(void)
