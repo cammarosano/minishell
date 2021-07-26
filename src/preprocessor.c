@@ -13,7 +13,7 @@ static void	text(char **dst, char *line, int *state)
 		*(*dst)++ = PIPE;
 	else if (*line == '$' && is_valid_char4varname(line[1]))
 		*(*dst)++ = DOLLAR_SIGN;
-	else if (*line == ' ')
+	else if (ft_isspace(*line))
 		*(*dst)++ = SPACEBAR;
 	else if (*line == '<')
 		*(*dst)++ = LESS_THAN;
