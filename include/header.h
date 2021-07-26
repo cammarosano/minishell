@@ -69,11 +69,11 @@ void	remove_var(char *var_name, t_sh_env *shell_env);
 // signal handling
 
 void	setup_signal_handlers(void);
+void	reset_signal_handlers(void);
 
 // parser
 
 char	*pre_processor(char *line);
-t_list	*parse_line(char *line);
 t_list	*split_by_pipe(char *line);
 int		parse_redirections(t_command *cmd);
 void	remove_arg_from_argv(char **argv);

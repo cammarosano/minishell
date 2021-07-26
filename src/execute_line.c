@@ -6,7 +6,7 @@
 /*   By: rcammaro <rcammaro@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 15:01:12 by rcammaro          #+#    #+#             */
-/*   Updated: 2021/07/25 18:59:56 by rcammaro         ###   ########.fr       */
+/*   Updated: 2021/07/26 16:41:39 by rcammaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ int	exit_code_from_child(int status)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			ft_putendl_fd("Quit", 1);
 		return (128 + WTERMSIG(status));
-	}
 	return (0);
 }
 

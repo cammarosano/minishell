@@ -6,19 +6,29 @@
 /*   By: rcammaro <rcammaro@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 15:15:12 by rcammaro          #+#    #+#             */
-/*   Updated: 2021/07/25 15:05:00 by rcammaro         ###   ########.fr       */
+/*   Updated: 2021/07/26 16:33:58 by rcammaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	init_shell(char **envp, t_sh_env *shenv)
+static int	init_shell(char **envp, t_sh_env *shenv)
 {
-	setup_signal_handlers();
 	if (setup_env(shenv, envp) == -1)
 		return (-1);
 	shenv->pipeline = NULL;
 	shenv->hd_files = NULL;
+	return (0);
+}
+
+static int	validate_line(char *line)
+{
+	while (*line)
+	{
+		if (ft_isprint(*line) && !ft_isspace(*line))
+			return (1);
+		line++;
+	}
 	return (0);
 }
 
@@ -27,31 +37,32 @@ int	init_shell(char **envp, t_sh_env *shenv)
 // which is added to history
 // Empty lines are discarded and prompt is shown again
 // ctrl-D on a empty line (or malloc error) makes program exit.
-char	*get_command(t_sh_env *shell_env)
+static char	*get_command(t_sh_env *shell_env)
 {
 	char	*line;
 
+	setup_signal_handlers();
 	while (1)
 	{
 		line = readline(PROMPT);
 		if (!line)
 		{
-			write(1, "\n", 1);
+			ft_putendl_fd("exit", 1);
 			ft_free_split(shell_env->envp);
 			exit(shell_env->question_mark);
 		}
-		if (!*line)
-		{
-			free(line);
-			continue ;
-		}
-		add_history(line);
-		return (line);
+		if (*line)
+			add_history(line);
+		if (validate_line(line))
+			break ;
+		free(line);
 	}
+	reset_signal_handlers();
+	return (line);
 }
 
 // interpret symbols in a line and return the pipeline as list of t_commands
-t_list	*parse_line(char *line)
+static t_list	*parse_line(char *line)
 {
 	t_list	*pipeline;
 	char	*processed_line;
