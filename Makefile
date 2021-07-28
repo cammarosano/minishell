@@ -6,7 +6,7 @@
 #    By: rcammaro <rcammaro@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 19:12:10 by rcammaro          #+#    #+#              #
-#    Updated: 2021/07/26 16:47:55 by rcammaro         ###   ########.fr        #
+#    Updated: 2021/07/28 15:28:22 by rcammaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,14 @@ SRCS =	builtin_cd.c \
 SRC = $(addprefix src/,$(SRCS))
 OBJ = $(SRC:.c=.o)
 LIBFT = libft/libft.a
-INCLUDES = -I include -I libft -I /Users/$(USER)/.brew/opt/readline/include
-LIBS = -lft -L libft -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+INCLUDES = -I include -I libft
+LIBS = -lft -L libft -lreadline
+
+# for 19's Macs, uncomment lines below:
+
+# INCLUDES += -I /Users/$(USER)/.brew/opt/readline/include
+# LIBS += -L /Users/$(USER)/.brew/opt/readline/lib
+
 HEADER = include/header.h
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
@@ -63,12 +69,6 @@ clean:
 fclean:		clean
 			rm -f $(NAME) $(LIBFT)
 
-readline-debian:
-			apt install libreadline-dev
-
-readline-brew:
-			brew install readline
-
 re:			fclean all 
 
-.PHONY:		all clean fclean readline re
+.PHONY:		all clean fclean re
