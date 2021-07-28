@@ -5,12 +5,14 @@
 
 * readline library
 
-	### Ubuntu/Debian:  
-	> `apt install libreadline-dev`
+Ubuntu/Debian: 
+> `apt install libreadline-dev`
 
-	### 19's Macs:  
-	>`brew install readline`   
-	Obs: You will also need to include Homebrew's directories in the list of places the compiler will be looking for includes and library files. Just uncomment the two lines as indicated in the **Makefile**.
+
+19's Macs:  
+> `brew install readline`
+>  
+> Obs: You will also need to include Homebrew's directories in the list of places the compiler will be looking for includes and library files. Just uncomment the two lines as indicated in the **Makefile**.
 
 ## Usage:
 
